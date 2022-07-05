@@ -1,3 +1,4 @@
+import Axios from 'axios';
 export function fetchImages(searchInput) {
     const BASE_URL = 'https://pixabay.com/api/';
     const API_KEY = '28424420-2580f7fdb9c775c114ec2d9bf';
@@ -8,11 +9,6 @@ export function fetchImages(searchInput) {
         safesearch: true,
         key: API_KEY
     });
-    return fetch(`${BASE_URL}?${searchParams}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
-            return response.json();
-        });
+    return Axios(`${BASE_URL}?${searchParams}`)
+       
 };

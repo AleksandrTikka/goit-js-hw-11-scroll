@@ -1,6 +1,7 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchImages } from './js/fetchImages.js';
 import SimpleLightbox from "simplelightbox";
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 refs = {
     form: document.getElementById('search-form'),
@@ -11,40 +12,52 @@ refs = {
 
 };
 
+let gallery = new SimpleLightbox('.gallery a');
+gallery.on('show.simplelightbox', function () {
+	// do something…
+});
+
+gallery.on('error.simplelightbox', function (e) {
+	console.log(e); // some usefull information
+});
+
 refs.form.addEventListener('submit', onSubmitBtn);
 let searchInput = '';
-function onSubmitBtn(e) {
+
+async function onSubmitBtn(e) {
+  
     e.preventDefault();
-    searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
-    console.log(searchInput);
-    if (searchInput === "") {
-        Notify.info("Search input is empty... Please enter a new word");
-        clearGallery();
-                
-    };
-  fetchImages(searchInput)
-    .then((images) => {
-      const galleryMarkup = images.map(image => renderGallery(image)).join('')
-        
-
-      
-      refs.gallery.insertAdjacentHTML('beforeend', galleryMarkup)
-    })
-    .catch((error) => {
-      Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-      return error
-    });
     
-    let gallery = new SimpleLightbox('.gallery a');
-    gallery.on('show.simplelightbox', function () {
-        // do something…
-    });
-
-    gallery.on('error.simplelightbox', function (e) {
-        console.log(e); // some usefull information
-    });
-
+  console.log(searchInput);
+  try {
+    searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
+    if (searchInput === "") {
+      Notify.info("Search input is empty... Please enter a new word");
+      clearGallery();                
+    };
+    const response = await fetchImages(searchInput);
+    const images = await response.data;
+    console.log(images);      
+    galleryMarkup(images.hits);        
+    
+    
+      
+  }
+  catch (error) {
+    Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+    console.log(error);
+  }
 };
+  
+
+  function galleryMarkup(images) {
+    const markup = images.map(image => renderGallery(image)).join('');
+    refs.gallery.insertAdjacentHTML('beforeend', markup);
+}
+  
+   
+
+
 
 function renderGallery({ webformatURL, largeImageURL, tags, likes, views, comments, downloads, } = image) {
   return `
