@@ -5,7 +5,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 
 
-refs = {
+const refs = {
     form: document.getElementById('search-form'),
     gallery: document.querySelector('.gallery'),
     moreImgBtn: document.querySelector('.load-more'),
