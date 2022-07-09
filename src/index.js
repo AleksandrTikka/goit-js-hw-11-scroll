@@ -3,24 +3,14 @@ import { fetchImages } from './js/fetchImages.js';
 import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-
-
 const refs = {
     form: document.getElementById('search-form'),
     gallery: document.querySelector('.gallery'),
     moreImgBtn: document.querySelector('.load-more'),
-
 };
 
 let gallery = new SimpleLightbox('.gallery a');
-gallery.on('show.simplelightbox', function (e) {
-  
-	// do something…
-});
 
-gallery.on('error.simplelightbox', function (e) {
-	console.log(e); // some usefull information
-});
 
 let searchInput = '';
 let page = null;
@@ -29,9 +19,6 @@ export { page, perPage, searchInput };
 refs.moreImgBtn.classList.add('hidden');
 refs.form.addEventListener('submit', onSubmitBtn);
 refs.moreImgBtn.addEventListener('click', omClickMoreImgBtn);
-
-
-
 
 async function onSubmitBtn(e) {
   e.preventDefault();  
@@ -57,25 +44,19 @@ async function onSubmitBtn(e) {
     refs.moreImgBtn.classList.remove('hidden');
     checkMessageAboutEnd();
       gallery.refresh();
-    }
-      
-        
-            
+    }                        
   }
   catch (error) {    
     console.log(error.message);
   };
    
-};
-
-  
+};  
 
 function galleryMarkup(images) {
   const markup = images.map(image => renderGallery(image)).join('');
   refs.gallery.insertAdjacentHTML('beforeend', markup);
 };
    
-
 function renderGallery({ webformatURL, largeImageURL, tags, likes, views, comments, downloads, } = image) {
   return `
   <div class="photo-card">
