@@ -3,17 +3,18 @@ import { fetchImages } from './js/fetchImages.js';
 import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+
+
 refs = {
     form: document.getElementById('search-form'),
-    input: document.getElementsByTagName('searchQuery'),
-    submitBtn: document.querySelector('.submit'),
     gallery: document.querySelector('.gallery'),
-    moreBtn: document.querySelector('.load-more'),
+    moreImgBtn: document.querySelector('.load-more'),
 
 };
 
 let gallery = new SimpleLightbox('.gallery a');
-gallery.on('show.simplelightbox', function () {
+gallery.on('show.simplelightbox', function (e) {
+  
 	// do something…
 });
 
@@ -21,70 +22,109 @@ gallery.on('error.simplelightbox', function (e) {
 	console.log(e); // some usefull information
 });
 
-refs.form.addEventListener('submit', onSubmitBtn);
 let searchInput = '';
+let page = null;
+const perPage = 40;
+export { page, perPage, searchInput };
+refs.moreImgBtn.classList.add('hidden');
+refs.form.addEventListener('submit', onSubmitBtn);
+refs.moreImgBtn.addEventListener('click', omClickMoreImgBtn);
+
+
+
 
 async function onSubmitBtn(e) {
-  
-    e.preventDefault();
+  e.preventDefault();  
+  clearGallery(); 
     
+  searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
+  page = 1;  
   console.log(searchInput);
-  try {
-    searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
     if (searchInput === "") {
-      Notify.info("Search input is empty... Please enter a new word");
-      clearGallery();                
+     return Notify.info("Search input is empty... Please enter a new word");
     };
-    const response = await fetchImages(searchInput);
-    const images = await response.data;
-    console.log(images);      
-    galleryMarkup(images.hits);        
-    
-    
-      
-  }
-  catch (error) {
-    Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-    console.log(error);
-  }
-};
-  
-
-  function galleryMarkup(images) {
-    const markup = images.map(image => renderGallery(image)).join('');
-    refs.gallery.insertAdjacentHTML('beforeend', markup);
-}
-  
+  try {       
+    const images = await fetchImages(searchInput);
    
+    if (images.totalHits === 0) {
+      Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+      refs.moreImgBtn.classList.add('hidden');
+      clearGallery();
+    } else {
+      Notify.success(`Hooray! We found ${images.totalHits} images.`);
+      console.log(images.totalHits);      
+    galleryMarkup(images.hits);     
+    refs.moreImgBtn.classList.remove('hidden');
+    checkMessageAboutEnd();
+      gallery.refresh();
+    }
+      
+        
+            
+  }
+  catch (error) {    
+    console.log(error.message);
+  };
+   
+};
 
+  
 
+function galleryMarkup(images) {
+  const markup = images.map(image => renderGallery(image)).join('');
+  refs.gallery.insertAdjacentHTML('beforeend', markup);
+};
+   
 
 function renderGallery({ webformatURL, largeImageURL, tags, likes, views, comments, downloads, } = image) {
   return `
-<div class="photo-card">
-<a href="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-  </a>
-  <div class="info">
-    <p class="info-item">
-      <b>Likes</b>${likes}
-    </p>
-    <p class="info-item">
-      <b>Views</b>${views}
-    </p>
-    <p class="info-item">
-      <b>Comments</b>${comments}
-    </p>
-    <p class="info-item">
-      <b>Downloads</b>${downloads}
-    </p>
+  <div class="photo-card">
+  <a href="${largeImageURL}">
+    <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" />
+    </a>
+    <div class="info">
+      <p class="info-item">
+        <b>Likes</b>${likes}
+      </p>
+      <p class="info-item">
+        <b>Views</b>${views}
+      </p>
+      <p class="info-item">
+        <b>Comments</b>${comments}
+      </p>
+      <p class="info-item">
+        <b>Downloads</b>${downloads}
+      </p>
+    </div>
   </div>
-</div>
-`
+  `
 };
 
-
+async function omClickMoreImgBtn() {
+  try {
+    refs.moreImgBtn.classList.add('hidden');
+    page += 1;
+  const images = await fetchImages(searchInput);
+  
+    galleryMarkup(images.hits);
+    refs.moreImgBtn.classList.remove('hidden');
+    checkMessageAboutEnd();
+  gallery.refresh();
+  }
+  catch (error) {
+    console.log(error.message);
+  }
+};
 
 function clearGallery() {
     refs.gallery.innerHTML = '';
 };
+
+function checkMessageAboutEnd(images) {
+  const totalPage = Math.ceil(images.totalHits / perPage);
+  if (page === totalPage) {
+    refs.moreImgBtn.classList.remove('hidden');
+    return Notify.warning("We're sorry, but you've reached the end of search results.");
+  }
+};
+
