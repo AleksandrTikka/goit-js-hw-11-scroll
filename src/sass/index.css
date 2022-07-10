@@ -25,8 +25,45 @@
   background-position: center;
 }
 
+html {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.form-wrapper {
+  display: block;
+  width: 100%;
+  background-color: rgb(10, 10, 163);
+  margin-bottom: 15px;
+}
+
 .search-form {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.search-form input {
+  border: none;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.search-form button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  right: 50%;
+  height: 25px;
+  width: 25px;
+  align-items: center;
 }
 
 .gallery {
@@ -41,12 +78,39 @@
 }
 
 .photo-card {
-  flex-basis: calc((100% - 40px) / 4);
-  margin: 5px;
+  flex-basis: calc((100% - 80px) / 4);
+  margin: 10px;
+  border-radius: 5px;
+  border: 1px solid #eae4e4;
+  box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.1);
+  contain: content;
+  transition: transform 300ms ease-out, box-shadow 300ms ease-out;
+}
+.photo-card:hover {
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+.photo-card .info {
+  display: flex;
+  justify-content: space-around;
+}
+.photo-card .info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.photo-card .info-item:not(:last-child) {
+  margin-right: 5px;
 }
 
 .load-more {
-  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  border: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(10, 10, 163);
 }
 .load-more.hidden {
   display: none;

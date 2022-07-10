@@ -25,7 +25,7 @@ async function onSubmitBtn(e) {
   clearGallery(); 
     
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
-  page = 12;  
+  page = 1;  
   console.log(searchInput);
     if (searchInput === "") {
      return Notify.info("Search input is empty... Please enter a new word");
@@ -37,12 +37,12 @@ async function onSubmitBtn(e) {
       Notify.failure("Sorry, there are no images matching your search query. Please try again.");
       refs.moreImgBtn.classList.add('hidden');
       clearGallery();
-    } 
+    };
       Notify.success(`Hooray! We found ${images.totalHits} images.`);
       console.log(images.totalHits);      
     galleryMarkup(images.hits);     
     refs.moreImgBtn.classList.remove('hidden');
-    checkMessageAboutEnd();
+    checkMessageAboutEnd(images);
       gallery.refresh();
                            
   }
@@ -81,15 +81,15 @@ function renderGallery({ webformatURL, largeImageURL, tags, likes, views, commen
   `
 };
 
-async function omClickMoreImgBtn() {
+async function omClickMoreImgBtn(images) {
   try {
     refs.moreImgBtn.classList.add('hidden');
     page += 1;
-  const images = await fetchImages(searchInput);
+  images = await fetchImages(searchInput);
   
     galleryMarkup(images.hits);
     refs.moreImgBtn.classList.remove('hidden');
-    checkMessageAboutEnd();
+    checkMessageAboutEnd(images);
   gallery.refresh();
   }
   catch (error) {
@@ -104,7 +104,7 @@ function clearGallery() {
 function checkMessageAboutEnd(images) {
   const totalPage = Math.ceil(images.totalHits / perPage);
   if (page === totalPage) {
-    refs.moreImgBtn.classList.remove('hidden');
+    refs.moreImgBtn.classList.add('hidden');
     return Notify.warning("We're sorry, but you've reached the end of search results.");
   }
 };
