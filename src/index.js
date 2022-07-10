@@ -25,26 +25,26 @@ async function onSubmitBtn(e) {
   clearGallery(); 
     
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
-  page = 1;  
+  page = 12;  
   console.log(searchInput);
     if (searchInput === "") {
      return Notify.info("Search input is empty... Please enter a new word");
     };
   try {       
     const images = await fetchImages(searchInput);
-   
+    console.log(images);
     if (images.totalHits === 0) {
       Notify.failure("Sorry, there are no images matching your search query. Please try again.");
       refs.moreImgBtn.classList.add('hidden');
       clearGallery();
-    } else {
+    } 
       Notify.success(`Hooray! We found ${images.totalHits} images.`);
       console.log(images.totalHits);      
     galleryMarkup(images.hits);     
     refs.moreImgBtn.classList.remove('hidden');
     checkMessageAboutEnd();
       gallery.refresh();
-    }                        
+                           
   }
   catch (error) {    
     console.log(error.message);
