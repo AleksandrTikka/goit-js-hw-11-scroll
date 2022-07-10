@@ -35,6 +35,11 @@ margin-bottom: 15px;
         height: 25px;
         width: 25px;
         align-items: center;
+        transition: background-color 250 $transition-timing-function;
+
+        &:hover {
+            background-color: $background-button-hover-color;
+        }
 
     }
 }
