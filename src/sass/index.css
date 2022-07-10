@@ -104,11 +104,16 @@ img {
 }
 
 .load-more {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
+  height: 25px;
+  min-width: 100px;
   border: none;
+  border-radius: 3px;
   color: rgb(255, 255, 255);
   background-color: rgb(10, 10, 163);
 }

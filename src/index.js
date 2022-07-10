@@ -27,7 +27,8 @@ async function onSubmitBtn(e) {
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
   page = 1;  
   console.log(searchInput);
-    if (searchInput === "") {
+  if (searchInput === "") {
+      refs.moreImgBtn.classList.add('hidden');
      return Notify.info("Search input is empty... Please enter a new word");
     };
   try {       
