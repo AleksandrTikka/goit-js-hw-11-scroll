@@ -1,6 +1,7 @@
 
 .form-wrapper {
     display: block;
+    text-align: center;
     width: 100%;
 background-color: $primary-background-color;
 margin-bottom: 15px;
@@ -30,7 +31,7 @@ margin-bottom: 15px;
         // margin-left: 5px;
         border: none;
         border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
+        border-bottom-right-radius: 3px;
         right: 50%;
         height: 25px;
         width: 25px;

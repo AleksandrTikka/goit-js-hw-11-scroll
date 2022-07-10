@@ -1,33 +1,86 @@
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    // margin: -10px;
+    justify-content: space-around;
+    // column-gap: 15px;
+    row-gap: 15px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 
+    @media screen and (min-width: 480px) {
+            width: 460px;
+        }
+    
+        @media screen and (min-width: 768px) {
+            width: 750px;
+        }
+    
+        @media screen and (min-width: 1200px) {
+            width: 1160px;
+        }
 
+        @media screen and (min-width: 1440px) {
+            width: 1400px;
+        }
 
-    // &__link {
-    //     width: 100%;
-    //         height: 80% ;
-    // }
+        @media screen and (min-width: 1920px) {
+            width: 1880px;
+        }
+
+        @media screen and (min-width: 2560px) {
+            width: 2520px;
+        }
+    
+
+    &__link {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        // min-width: 100%;
+            height: 80% ;
+    }
 
     &__image {
-        width: 100%;
-        height: 80% ;
+        // width: 100%;
+        height: 100% ;
     }
 
 }
 
 .photo-card {
-    // display: inline-flex;
-    // flex-direction: column;
-    flex-basis: calc((100% - 10px * 8) / 4);
-    // height: auto;
-    margin: 10px;
+    
     border-radius: 5px;
     border: 1px solid #eae4e4;
     box-shadow: 3px 3px 2px rgb(0 0 0 / 10%);
     contain: content;
+    @media screen and (min-width: 480px) {
+            height: 135px;
+            flex-basis: calc((100% - 15px) / 2);
+        }
+    
+        @media screen and (min-width: 768px) {
+            height: 130px;
+            flex-basis: calc((100% - 15px * 3) / 3);
+        }
+    
+        @media screen and (min-width: 1200px) {
+            height: 165px;
+            flex-basis: calc((100% - 15px * 3) / 4);
+        }
+
+        @media screen and (min-width: 1440px) {
+            height: 200px;
+        }
+
+        @media screen and (min-width: 1920px) {
+            height: 270px;
+        }
+
+        @media screen and (min-width: 2560px) {
+            height: 270px;
+            flex-basis: calc((100% - 15px * 4) / 5);
+        }
     transition: transform 250ms $transition-timing-function, box-shadow 250ms $transition-timing-function;
 
     &:hover {
@@ -39,8 +92,33 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        height: 20%;
+        @media screen and (min-width: 480px) {
+                
+                font-size: 8px;
+            }
+        
+            @media screen and (min-width: 768px) {
+                font-size: 10px;
+            }
+        
+            @media screen and (min-width: 1200px) {
+                font-size: 12px;
+            }
+        
+            @media screen and (min-width: 1440px) {
+                font-size: 14px;
+            }
+        
+            @media screen and (min-width: 1920px) {
+                font-size: 16px;
+            }
+        
+            @media screen and (min-width: 2560px) {
+                font-size: 20px;
+            }
+        
+
 
     }
     & .info-item {
