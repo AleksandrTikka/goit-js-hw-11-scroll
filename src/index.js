@@ -6,7 +6,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const refs = {
     form: document.getElementById('search-form'),
     gallery: document.querySelector('.gallery'),
-    moreImgBtn: document.querySelector('.load-more'),
+    // moreImgBtn: document.querySelector('.load-more'),
 };
 
 let gallery = new SimpleLightbox('.gallery a');
@@ -16,7 +16,7 @@ let searchInput = '';
 let page = null;
 const perPage = 40;
 export { page, perPage, searchInput };
-refs.moreImgBtn.classList.add('hidden');
+// refs.moreImgBtn.classList.add('hidden');
 refs.form.addEventListener('submit', onSubmitBtn);
 // refs.moreImgBtn.addEventListener('click', onClickMoreImgBtn);
 
@@ -28,7 +28,7 @@ async function onSubmitBtn(e) {
   page = 1;  
   console.log(searchInput);
   if (searchInput === "") {
-      refs.moreImgBtn.classList.add('hidden');
+      // refs.moreImgBtn.classList.add('hidden');
      return Notify.info("Search input is empty... Please enter a new word");
     };
   try {       
@@ -36,13 +36,13 @@ async function onSubmitBtn(e) {
     console.log(images);
     if (images.totalHits === 0) {
       Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-      refs.moreImgBtn.classList.add('hidden');
+      // refs.moreImgBtn.classList.add('hidden');
       clearGallery();
     };
       Notify.success(`Hooray! We found ${images.totalHits} images.`);
       console.log(images.totalHits);      
     galleryMarkup(images.hits);     
-    refs.moreImgBtn.classList.remove('hidden');
+    // refs.moreImgBtn.classList.remove('hidden');
     checkMessageAboutEnd(images);
       gallery.refresh();
                            
@@ -87,12 +87,12 @@ function renderGallery({ webformatURL, largeImageURL, tags, likes, views, commen
 
 async function onClickMoreImg(images) {
   try {
-    refs.moreImgBtn.classList.add('hidden');
+    // refs.moreImgBtn.classList.add('hidden');
     page += 1;
   images = await fetchImages(searchInput);
   
     galleryMarkup(images.hits);
-    refs.moreImgBtn.classList.remove('hidden');
+    // refs.moreImgBtn.classList.remove('hidden');
     checkMessageAboutEnd(images);
   gallery.refresh();
   }
