@@ -54,6 +54,7 @@
     border: 1px solid #eae4e4;
     box-shadow: 3px 3px 2px rgb(0 0 0 / 10%);
     contain: content;
+    height: 270px;
     @media screen and (min-width: 480px) {
             height: 135px;
             flex-basis: calc((100% - 15px) / 2);
@@ -78,7 +79,7 @@
         }
 
         @media screen and (min-width: 2560px) {
-            height: 270px;
+            height: 290px;
             flex-basis: calc((100% - 15px * 4) / 5);
         }
     transition: transform 250ms $transition-timing-function, box-shadow 250ms $transition-timing-function;
