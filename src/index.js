@@ -23,6 +23,7 @@ refs.form.addEventListener('submit', onSubmitBtn);
 async function onSubmitBtn(e) {
   e.preventDefault();  
   clearGallery(); 
+  
     
   searchInput = e.currentTarget.elements.searchQuery.value.trim().toLowerCase();
   page = 1;  
@@ -44,6 +45,24 @@ async function onSubmitBtn(e) {
     galleryMarkup(images.hits);     
     // refs.moreImgBtn.classList.remove('hidden');
     checkMessageAboutEnd(images);
+    const optionsObserve = {
+      rootMargin: '0px',
+      treshold: 1.0,
+    };
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          console.log('Шляпа');
+          //1. делаем HTTP-запрос
+
+
+          //2. добавляем разметку
+          onClickMoreImg()        
+        }
+      });
+    }, optionsObserve);
+
+    observer.observe(document.querySelector('.scroll-quard'));
       gallery.refresh();
                            
   }
@@ -105,25 +124,7 @@ function clearGallery() {
     refs.gallery.innerHTML = '';
 };
 
-const optionsObserve = {
-  rootMargin: '0px',
-  treshold: 1.0,
-};
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      console.log('Шляпа');
-      //1. делаем HTTP-запрос
 
-
-      //2. добавляем разметку
-      onClickMoreImg()
-      
-    }
-  });
-}, optionsObserve);
-
-observer.observe(document.querySelector('.scroll-quard'));
 
 function checkMessageAboutEnd(images) {
   const totalPage = Math.ceil(images.totalHits / perPage);
