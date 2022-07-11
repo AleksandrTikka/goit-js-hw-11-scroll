@@ -133,7 +133,6 @@ a {
   border: 1px solid #eae4e4;
   box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.1);
   contain: content;
-  height: 270px;
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 @media screen and (min-width: 480px) {
