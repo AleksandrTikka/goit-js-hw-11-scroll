@@ -123,6 +123,8 @@ const observer = new IntersectionObserver(entries => {
   });
 }, optionsObserve);
 
+observer.observe(document.querySelector('.scroll-quard'));
+
 function checkMessageAboutEnd(images) {
   const totalPage = Math.ceil(images.totalHits / perPage);
   if (page === totalPage) {
@@ -131,5 +133,5 @@ function checkMessageAboutEnd(images) {
   }
 };
 
-observer.observe(document.querySelector('.scroll-quard'));
+
 
